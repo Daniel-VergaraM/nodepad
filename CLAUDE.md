@@ -161,7 +161,7 @@ Available models: Claude Sonnet 4.5, GPT-4o (default), Gemini 2.5 Pro, DeepSeek 
 - Receives last 10 synthesis texts to avoid near-duplicates; instructs recency weighting
 - Returns: `{ text, category }` — 15–25 word emergent thesis
 
-## Security (`middleware.ts`)
+## Security (`proxy.ts`)
 
 Next.js middleware applied to `/api/enrich` and `/api/ghost`:
 - **Rate limiting**: sliding-window in-memory store — 60 req/min for `/api/enrich`, 10 req/min for `/api/ghost`
