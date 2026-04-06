@@ -142,6 +142,8 @@ export interface AISettings {
   webGrounding: boolean
   provider: AIProvider
   customBaseUrl: string
+  /** Per-provider key store so switching back to a provider restores its key */
+  providerKeys?: Partial<Record<AIProvider, string>>
 }
 
 const STORAGE_KEY = "nodepad-ai-settings"
