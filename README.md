@@ -26,7 +26,7 @@ Three views: **tiling** (spatial BSP grid), **kanban** (grouped by type), **grap
 
 ## Setup
 
-**Requirements**: a desktop browser and an [OpenRouter](https://openrouter.ai) API key.
+**Requirements**: a desktop browser and an API key from one of the supported providers.
 
 ```bash
 git clone https://github.com/mskayyali/nodepad.git
@@ -37,23 +37,45 @@ npm run dev
 
 Open [localhost:3000](http://localhost:3000).
 
-**Add your API key**: click the menu icon (top-left) → Settings → paste your OpenRouter key. The key is stored in your browser's `localStorage` and goes directly to OpenRouter — it never passes through any server.
+**Add your API key**: click the menu icon (top-left) → Settings → choose your provider → paste your key. The key is stored in your browser's `localStorage` and goes directly to the AI provider — it never passes through any server.
 
-**Enable web grounding** (optional): toggle "Web grounding" in Settings to let the AI cite real sources for claims, questions, and references. Works with models that support the `:online` suffix.
+**Enable web grounding** (optional): toggle "Web grounding" in Settings to let the AI cite real sources for claims, questions, and references. Supported on OpenRouter `:online` models and OpenAI search-preview models.
 
 ---
 
-## Models
+## Providers & Models
 
-Select from the sidebar Settings panel. Default is GPT-4o.
+Select provider and model from the sidebar Settings panel. Each provider remembers its key independently — switching providers and back restores your key.
+
+### OpenRouter *(default)*
+Access to all major models through a single key. Free credits available at [openrouter.ai](https://openrouter.ai).
 
 | Model | Notes |
 |---|---|
-| `openai/gpt-4o` | Default. Strong annotation quality. |
-| `anthropic/claude-sonnet-4-5` | Strong reasoning, good for complex research. |
-| `google/gemini-2.5-pro` | Supports web grounding. |
+| `openai/gpt-4o` | Default. Strong annotation quality, web grounding. |
+| `anthropic/claude-sonnet-4-5` | Strong reasoning, complex research. |
+| `google/gemini-2.5-pro` | Long context, web grounding. |
 | `deepseek/deepseek-chat` | Fast, cost-effective. |
-| `mistralai/mistral-small-3.2` | Lightweight, supports grounding. |
+| `mistralai/mistral-small-3.2` | Lightweight, fast. |
+
+### OpenAI *(direct)*
+Use your OpenAI API key directly. Web grounding via search-preview models.
+
+| Model | Notes |
+|---|---|
+| `gpt-4o` | Strong structured output, web grounding. |
+| `gpt-4o-mini` | Fast, capable, web grounding. |
+| `gpt-4.1` | Latest GPT-4, improved instruction following. |
+| `o4-mini` | Fast reasoning model. |
+
+### Z.ai
+GLM models from Zhipu AI. Get a key at [z.ai](https://z.ai/manage-apikey/apikey-list).
+
+| Model | Notes |
+|---|---|
+| `glm-4.7` | Strong reasoning, 200K context. |
+| `glm-5` | Z.ai flagship model. |
+| `glm-5-turbo` | Fast, community-tested. |
 
 ---
 
@@ -83,7 +105,16 @@ Everything lives in your browser. No account, no server, no database.
 
 ## Tech
 
-Next.js · React 19 · TypeScript · Tailwind CSS v4 · D3.js · Framer Motion · OpenRouter API
+Next.js · React 19 · TypeScript · Tailwind CSS v4 · D3.js · Framer Motion
+
+---
+
+## Contributing
+
+Pull requests welcome. Two PRs have already shaped the project:
+
+- **PR #1** by [@matwate](https://github.com/matwate) — OpenAI provider support, multi-provider architecture
+- **PR #2** by [@desireco](https://github.com/desireco) — Z.ai provider, robust JSON parsing for truncated responses
 
 ---
 
