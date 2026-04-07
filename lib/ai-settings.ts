@@ -11,7 +11,6 @@ export interface AIModel {
 }
 
 export type AIProvider = "openrouter" | "openai" | "zai" | "custom"
-
 export interface AIProviderPreset {
   id: AIProvider
   label: string
@@ -124,6 +123,37 @@ export const OPENAI_MODELS: AIModel[] = [
   },
 ]
 
+export const ZAI_MODELS: AIModel[] = [
+  {
+    id: "glm-4.5",
+    label: "GLM-4.5",
+    shortLabel: "GLM-4.5",
+    description: "Fast, cost-efficient Z.ai model",
+    supportsGrounding: false,
+  },
+  {
+    id: "glm-4.7",
+    label: "GLM-4.7",
+    shortLabel: "GLM-4.7",
+    description: "Strong reasoning, 200K context",
+    supportsGrounding: false,
+  },
+  {
+    id: "glm-5",
+    label: "GLM-5",
+    shortLabel: "GLM-5",
+    description: "Z.ai flagship model",
+    supportsGrounding: false,
+  },
+  {
+    id: "glm-5-turbo",
+    label: "GLM-5 Turbo",
+    shortLabel: "GLM-5 Turbo",
+    description: "Fast, capable, community tested",
+    supportsGrounding: false,
+  },
+]
+
 export function getModelsForProvider(provider: AIProvider): AIModel[] {
   switch (provider) {
     case "openrouter": return AI_MODELS
@@ -174,9 +204,14 @@ export function loadAIConfig(): AIConfig | null {
   if (!s.apiKey) return null
   const models = getModelsForProvider(s.provider)
   const model = models.find(m => m.id === s.modelId)
-  const modelId = s.modelId || (models[0]?.id ?? DEFAULT_MODEL_ID)
   const supportsGrounding = s.provider === "openrouter" && (model?.supportsGrounding ?? false)
-  return { apiKey: s.apiKey, modelId, supportsGrounding, provider: s.provider, customBaseUrl: s.customBaseUrl }
+  // Use the matched model's id if found; otherwise fall back to the first model
+  // for this provider.  This handles the case where localStorage still holds an
+  // OpenRouter-prefixed id (e.g. "openai/gpt-4o") after switching to OpenAI —
+  // that string won't match any entry in OPENAI_MODELS so we fall back to "gpt-4o".
+  const modelId = model?.id ?? models[0]?.id ?? s.modelId ?? DEFAULT_MODEL_ID
+  // Z.ai does not support grounding; only openrouter and openai do
+ return { apiKey: s.apiKey, modelId, supportsGrounding, provider: s.provider, customBaseUrl: s.customBaseUrl }
 }
 
 export function getBaseUrl(config: AIConfig): string {

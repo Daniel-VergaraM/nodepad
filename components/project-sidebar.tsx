@@ -374,10 +374,7 @@ export function ProjectSidebar({
                       onChange={e => setDraft(d => ({ ...d, apiKey: e.target.value }))}
                       placeholder={currentPreset.keyPlaceholder || "Your API key"}
                       className="flex-1 bg-transparent font-mono text-[11px] text-foreground outline-none placeholder:text-muted-foreground/40"
-<<<<<<< HEAD
-=======
                       style={showKey ? undefined : { WebkitTextSecurity: "disc" } as never}
->>>>>>> 3ee62ae (Polish before merge: remove source panels, per-provider key memory, input fixes)
                       autoComplete="off"
                       spellCheck={false}
                     />
