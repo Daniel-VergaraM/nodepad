@@ -54,8 +54,8 @@ COPY --from=builder /app/package.json ./package.json
 ENV NODE_ENV=production
 
 
-ENV PORT=6769
+ENV PORT=6768
 # Next.js handles port 3000 by default.
-EXPOSE 6769
+EXPOSE 6768
 
 CMD ["npm", "start"]
